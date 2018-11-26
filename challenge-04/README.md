@@ -110,16 +110,22 @@ mostrar quantos assentos ainda podem ser ocupados, com a frase:
 citado acima, no lugar de "pessoas".
 */
 carro.adicionarPessoas = function(qtdPessoas) {
-    if (carro.quantidadePessoas === 5) {
+    var totalPessoas = carro.quantidadePessoas + qtdPessoas;
+    var lugares = carro.assentos - carro.quantidadePessoas;
+    var concordanciaCaber = lugares === 1 ? 'cabe' : 'cabem';
+    var concordanciaPessoas = lugares === 1 ? 'pessoa!' : 'pessoas!';
+
+    if (carro.quantidadePessoas === carro.assentos && totalPessoas >= carro.assentos) {
         return "O carro já está lotado!";
-    } else if ((carro.quantidadePessoas + qtdPessoas) > 5) {
-        var lugares = 5 - carro.quantidadePessoas;
-        var pessoas = lugares === 1 ? 'pessoa!' : 'pessoas!'
-        return "Só cabem mais " + lugares + " " + pessoas;
+    } else if ( totalPessoas > carro.assentos) {
+        return "Só " + concordanciaCaber + " mais " + lugares + " " + concordanciaPessoas;
     }
     
     carro.quantidadePessoas += qtdPessoas;
-    return "Já temos " + carro.quantidadePessoas + " pessoas no carro!";
+
+    var concordanciaPessoasCarro = carro.quantidadePessoas === 1 ? 'pessoa' : 'pessoas';
+    
+    return "Já temos " + carro.quantidadePessoas + " " + concordanciaPessoasCarro + " no carro!";
 }
 
 /*
@@ -157,7 +163,7 @@ carro.adicionarPessoas(4); // "Só cabem mais 3 pessoas!"
 carro.adicionarPessoas(3); // "Já temos 5 pessoas no carro!"
 
 // Tire 4 pessoas do carro.
-carro.quantidadePessoas -= 4; // 1
+carro.adicionarPessoas(-4); // 1
 
 // Adicione 10 pessoas no carro.
 carro.adicionarPessoas(10); // "Só cabem mais 4 pessoas!"
