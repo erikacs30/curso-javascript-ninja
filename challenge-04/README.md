@@ -48,8 +48,8 @@ seguintes propriedades (os valores devem ser do tipo mostrado abaixo):
 - `quantidadePessoas` - Number - zero por padrão
 */
 var carro = {
-    marca: 'Chevrolet,
-    modelo: 'Vectra GT,
+    marca: 'Chevrolet',
+    modelo: 'Vectra GT',
     placa: 'ECS-0203',
     ano: 2018,
     cor: 'Vinho',
@@ -99,8 +99,7 @@ carro.obterMarcaModelo = function() {
 /*
 Crie um método que irá adicionar pessoas no carro. Esse método terá as
 seguintes características:
-- Ele deverá receber por parâmetro o número de pessoas entrarão no carro. Esse
-número não precisa encher o carro, você poderá acrescentar as pessoas aos
+- Ele deverá receber por parâmetro o número de pessoas que entrarão no carro. Esse número não precisa encher o carro, você poderá acrescentar as pessoas aos
 poucos.
 - O método deve retornar a frase: "Já temos [X] pessoas no carro!"
 - Se o carro já estiver cheio, com todos os assentos já preenchidos, o método
