@@ -35,13 +35,10 @@ Crie uma função chamada `showTeamPosition` com as seguintes características:
 */
 
 function showTeamPosition(position) {
-    if (position <= 5) {
-        if (position <= teams.length - 1) {
-            return 'O time que está em ' + position + 'º lugar é o ' + teams[position - 1] + '.';
-        }
-    } else {
-        return 'Não temos a informação do time que está nessa posição.';
+    if (position > 0 || position <= 5) { 
+        return 'O time que está em ' + position + 'º lugar é o ' + teams[position - 1] + '.';
     }
+    return 'Não temos a informação do time que está nessa posição.';
 }
 
 /*
@@ -61,6 +58,7 @@ repetição "while".
 var contador = 0;
 while (contador <= 30) {
     console.log(contador);
+    contador++;
 }
 
 /*
@@ -76,36 +74,38 @@ Crie uma função chamada `convertToHex`, com as seguintes características:
     "Não temos o equivalente hexadecimal para [COR]."
 */
 function convertToHex(cor) {
+    var hexa;
     switch (cor) {
     case 'red':
-        return 'O hexadecimal para a cor ' + cor + ' é #FF4040.';
+        hexa = '#FF4040';
         break;
     case 'blue':
-        return 'O hexadecimal para a cor ' + cor + ' é #4040FF.';
+        hexa = '#4040FF';
         break;
     case 'magenta':
-        return 'O hexadecimal para a cor ' + cor + ' é #FF00FF.';
+        hexa = '#FF00FF';
         break;
     case 'green':
-        return 'O hexadecimal para a cor ' + cor + ' é #40FF40.';
+        hexa = '#40FF40';
         break;
     case 'grey':
-        return 'O hexadecimal para a cor ' + cor + ' é #666666.';
+        hexa = '#666666';
         break;
     default:
         return 'Não temos o equivalente hexadecimal para ' + cor + '.';
         break;
     };
+    return 'O hexadecimal para a cor ' + cor + ' é ' + hexa + '.';
 }
 
 /*
 Tente mostrar o hexadecimal de 8 cores diferentes usando a função criada acima.
 */
-convertToHex('red'); // "O hexadecimal para a cor red é #FF4040."
-convertToHex('green'); // "O hexadecimal para a cor green é #40FF40."
-convertToHex('cyan'); // "Não temos o equivalente hexadecimal para cyan."
-convertToHex('grey'); // "O hexadecimal para a cor grey é #666666."
-convertToHex('magenta'); // "O hexadecimal para a cor magenta é #FF00FF."
-convertToHex('blue'); // "O hexadecimal para a cor blue é #4040FF."
-convertToHex('orange'); // "Não temos o equivalente hexadecimal para orange."
-convertToHex('yellow'); // "Não temos o equivalente hexadecimal para yellow."
+console.log(convertToHex('red')); // "O hexadecimal para a cor red é #FF4040."
+console.log(convertToHex('green')); // "O hexadecimal para a cor green é #40FF40."
+console.log(convertToHex('cyan')); // "Não temos o equivalente hexadecimal para cyan."
+console.log(convertToHex('grey')); // "O hexadecimal para a cor grey é #666666."
+console.log(convertToHex('magenta')); // "O hexadecimal para a cor magenta é #FF00FF."
+console.log(convertToHex('blue')); // "O hexadecimal para a cor blue é #4040FF."
+console.log(convertToHex('orange')); // "Não temos o equivalente hexadecimal para orange."
+console.log(convertToHex('yellow')); // "Não temos o equivalente hexadecimal para yellow."
