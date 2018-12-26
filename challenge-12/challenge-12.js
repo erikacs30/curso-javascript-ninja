@@ -36,20 +36,19 @@
     `pages`: Number
     */
     
-    books = [
-        {
+    books.push({
             name: 'Livro 1',
             pages: 400
-        },
-        {
+        });
+
+    books.push({
             name: 'Livro 2',
             pages: 600
-        },
-        {
+        });
+    books.push({
             name: 'Livro 3',
             pages: 100
-        }
-    ]
+        });
     /*
     Mostre no console todos os livros.
     */
@@ -58,7 +57,7 @@
     /*
     Remova o último livro, e mostre-o no console.
     */
-   console.log( '\nLivro que está sendo removido:', books.push() );
+   console.log( '\nLivro que está sendo removido:', books.pop() );
 
    /*
     Mostre no console os livros restantes.
@@ -68,26 +67,29 @@
     /*
     Converta os objetos que ficaram em `books` para strings.
     */
-    
-    console.log( '\nLivros em formato string:', JSON.stringify(books) );
+    books = JSON.stringify(books);
 
     /*
     Mostre os livros nesse formato no console:
     */
-    // ?
+    console.log( '\nLivros em formato string:', books );
 
     /*
     Converta os livros novamente para objeto.
     */
-    // ?
-    console.log( '\nAgora os livros são objetos novamente:' , JSON.parse(books[1]));
+    books = JSON.parse(books);
+    console.log( '\nAgora os livros são objetos novamente:' , books);
 
     /*
     Mostre no console todas as propriedades e valores de todos os livros,
     no formato abaixo:
         "[PROPRIEDADE]: [VALOR]"
     */
-    console.log(books);
+   for (var i = 0; i < books.length; i ++ ) {
+       for (var props in books[i]) {
+            console.log(props + ': ' + books[i][props]);
+       }
+   }
 
     /*
     Crie um array chamado `myName`. Cada item desse array deve ser uma letra do
@@ -103,8 +105,7 @@
     /*
     Ainda usando o objeto acima, mostre no console seu nome invertido.
     */
-   myName.reverse();
-   console.log( '\nMeu nome invertido é:', myName.join('') );
+   console.log( '\nMeu nome invertido é:', myName.reverse().join('') );
 
     /*
     Mostre todos os itens do array acima, odenados alfabéticamente.
