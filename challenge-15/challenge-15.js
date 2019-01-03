@@ -29,8 +29,12 @@
     this.getFullName = function getFullName() {
       return nameArg + ' ' + lastNameArg;
     },
+    this.getAge = function getAge() {
+      return this.age;
+    },
     this.addAge = function addAge() {
-      return ageArg + arguments[0];
+      this.age += arguments[0];
+      return this;
     }
   }
 
@@ -45,26 +49,26 @@
       maria = new Person('Maria', 'Santos', 14),
       telma = new Person('Telma', 'Costa', 34);
 
-  console.log(ana);
-  console.log(maria);
-  console.log(telma);
+  console.log( ana );
+  console.log( maria );
+  console.log( telma );
 
   /*
   Mostre no console o nome completo de cada pessoa.
   */
   console.log( '\nNomes das pessoas:' );
-  console.log(ana.getFullName());
-  console.log(maria.getFullName());
-  console.log(telma.getFullName());
+  console.log( ana.getFullName() );
+  console.log( maria.getFullName() );
+  console.log( telma.getFullName() );
 
   /*
   Mostre no console as idades de cada pessoa, com a frase:
   - "[NOME COMPLETO] tem [IDADE] anos."
   */
   console.log( '\nIdade das pessoas:' );
-  console.log(ana.getFullName() + ' tem ' + ana.age + ' anos.');
-  console.log(maria.getFullName() + ' tem ' + maria.age + ' anos.');
-  console.log(telma.getFullName() + ' tem ' + telma.age + ' anos.');
+  console.log( ana.getFullName() + ' tem ' + ana.getAge() + ' anos.' );
+  console.log( maria.getFullName() + ' tem ' + maria.getAge() + ' anos.' );
+  console.log( telma.getFullName() + ' tem ' + telma.getAge() + ' anos.' );
 
   /*
   Adicione alguns anos à cada pessoa, e mostre no console a nova idade de
@@ -72,8 +76,8 @@
   - "[NOME COMPLETO] agora tem [NOVA IDADE] anos."
   */
   console.log( '\nNova idade das pessoas:' );
-  console.log(ana.getFullName() + ' agora tem ' + ana.addAge(2) + ' anos.');
-  console.log(maria.getFullName() + ' agora tem ' + maria.addAge(4) + ' anos.');
-  console.log(telma.getFullName() + ' agora tem ' + telma.addAge(7) + ' anos.');
+  console.log( ana.getFullName() + ' agora tem ' + ana.addAge(2).getAge() + ' anos.' );
+  console.log( maria.getFullName() + ' agora tem ' + maria.addAge(-4).getAge() + ' anos.' );
+  console.log( telma.getFullName() + ' agora tem ' + telma.addAge(7).getAge() + ' anos.' );
 
 })();
