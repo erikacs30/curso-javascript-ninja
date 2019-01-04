@@ -17,8 +17,8 @@
     */
     console.log( 'As letras do seu nome:' );
     var name = "Erika";
-    var nameSplit = name.split('');
-    nameSplit.map( function(item, index) {
+    name = name.split('');
+    name.map( function(item, index) {
         console.log( item + ' é a ' + (index + 1) + 'ª letra do meu nome.' );
     });
 
@@ -36,9 +36,12 @@
     */
     console.log( '\nNome convertido à partir de um slug:' );
     var fullName = 'erika-carvalho';
-    var fullNameSplit = fullName.split('-');
+    var fullNameSplit = fullName.split('-').map( function(item) {
+        return item.charAt(0).toUpperCase() + item.slice(1);
+    } ).join(' ');
     console.log(fullName);
-    console.log(fullNameSplit[0].toString().charAt(0).toUpperCase() + fullNameSplit[0].slice(1) + ' ' + fullNameSplit[1].toString().charAt(0).toUpperCase() + fullNameSplit[1].slice(1) )
+    console.log(fullNameSplit);
+    // console.log(fullNameSplit[0].toString().charAt(0).toUpperCase() + fullNameSplit[0].slice(1) + ' ' + fullNameSplit[1].toString().charAt(0).toUpperCase() + fullNameSplit[1].slice(1) )
 
     /*
     - Crie um array com 5 nomes. Reduza esses nomes a uma única string, separando
@@ -51,21 +54,26 @@
     */
     console.log( '\nMeus amigos:' );
     var friends = ['Ana', 'Claúdia', 'Helena', 'Fulano'];
-    var lastFriend = friends[ friends.length - 1 ];
+    // var lastFriend = friends[ friends.length - 1 ];
+    // friends = friends.join(', ');
+    // friends = friends.replace(', ' + lastFriend, ' e ' + lastFriend);
+    // console.log(friends + ' são meus amigos');
 
-    friends = friends.join(', ');
-    friends = friends.replace(', ' + lastFriend, ' e ' + lastFriend);
-    console.log(friends + ' são meus amigos');
+    var phrase = friends.reduce(function(acumulado, atual, index) {
+        var separator = friends.length - 1 === index ? ' e ' : ', ';
+        return acumulado + separator + atual;
+    }).concat(' são friends.');
+    console.log( phrase );
 
     /*
     Usando o replace(), faça a string "Roberto" virar "Roberta".
     Mostre o resultado no console.
     */
     console.log( '\nEra "Roberto", agora é:' );
-    var transName = "Roberto";
-    transName = transName.slice(0, transName.length - 1);
-    transName = transName.concat('a');
-    console.log(transName);
+    // var transName = "Roberto";
+    // transName = transName.slice(0, transName.length - 1);
+    // transName = transName.concat('a');
+    console.log('Roberto'.replace('to', 'ta'));
 
     /*
     Mostre no console a parte "nando" da string "Fernando". Use o método que
@@ -85,11 +93,8 @@
     */
     console.log( '\nNome com letras intercaladas entre caixa alta e baixa:' );
     var name = 'Maria Joaquina de Albuquerque Santos';
-    name = name.toLowerCase().split('');
-    name.forEach(function(item, index) {
-        if (index % 2 === 0) {
-            name[index] = item.toUpperCase();
-        }
-    });
-    console.log(name.join(''));
+    name = name.split('').map(function(item, index) {
+        return index % 2 === 0 ? item.toUpperCase() : item.toLowerCase();
+    }).join('');
+    console.log(name);
 })();
