@@ -31,7 +31,9 @@
     Mostre o resultado no console.
     */
     console.log( '\nFormatando CPFs corretamente:' );
-    // ?
+    cpfs.forEach( function ( cpf ) {
+        console.log( cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, '$1.$2.$3-$4'));
+    } );
 
     /*
     Crie uma expressão regular que faça match com as palavras "junho" ou "julho",
@@ -46,7 +48,7 @@
     */
     console.log( '\nMatch com as palavras "junho" ou "julho" para a frase "Os meses de janeiro, junho e julho começam com a letra j.":' );
     // var regexMonth = /(junho)|(julho)/g,
-    var regexMonth = /j\w{3}o/g,
+    var regexMonth = /ju[nl]ho/g,
         phrase = "Os meses de janeiro, junho e julho começam com a letra j.";
     console.log(phrase.match(regexMonth));
 
@@ -102,8 +104,8 @@
     corretas, para depois aplicar no código ;)
     */
     console.log( '\nFazer replace dos textos das tags:' );
-    var regexHtmlText = /<\w+><\/\w+>/g,
+    var regexHtmlText = /<(\w+)>([^<]+)<\/\w+>/g,
         htmlText = "<h1>Título da página</h1><p>Este é um parágrafo</p><footer>Rodapé</footer>";
-    console.log(htmlText.match(regexHtmlText));
+    console.log(htmlText.replace(regexHtmlText, '<$1>O texto dentro da tag "$1" é "$2"</$1>\n'));
 
 })();
