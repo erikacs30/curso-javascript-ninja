@@ -17,18 +17,13 @@
     - "101.123-131x32"
     */
     console.log( 'Limpando CPFs:' );
-    function cleanCPF (regex, firstMatch, secondMatch) {
-        return secondMatch[0];
+    function cleanCPF ( cpf ) {
+        return cpf.replace(/\D/g, '');
     }
-    var cpf1 = "049-214 3421-1",
-        cpf2 = "210.458.522-05",
-        cpf3 = "735 500 794 - 22",
-        cpf4 = "101.123-131x32",
-        regex = /(\d{1,3})/g;
-    console.log( cpf1.replace(regex, cleanCPF));
-    console.log( cpf2.replace(regex, cleanCPF));
-    console.log( cpf3.replace(regex, cleanCPF));
-    console.log( cpf4.replace(regex, cleanCPF));
+    var cpfs = ["049-214 3421-1", "210.458.522-05", "735 500 794 - 22", "101.123-131x32"];
+    cpfs.forEach( function ( cpf ) {
+        console.log( cleanCPF( cpf ));
+    } );
 
     /*
     Usando os CPFs limpos acima, deixe-os com a formatação correta de CPF.
@@ -107,6 +102,8 @@
     corretas, para depois aplicar no código ;)
     */
     console.log( '\nFazer replace dos textos das tags:' );
-    // ?
+    var regexHtmlText = /<\w+><\/\w+>/g,
+        htmlText = "<h1>Título da página</h1><p>Este é um parágrafo</p><footer>Rodapé</footer>";
+    console.log(htmlText.match(regexHtmlText));
 
 })();
