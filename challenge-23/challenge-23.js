@@ -28,8 +28,8 @@
 
     var operatorsArr,
         numbersArr,
-        input = doc.querySelector('[data-js="input-read"]'),
-        number = doc.querySelectorAll('[data-js="number"]'),
+        visor = doc.querySelector('[data-js="visor"]'),
+        buttonNumber = doc.querySelectorAll('[data-js="number"]'),
         buttonOperator = doc.querySelectorAll('[data-js="operators"]'),
         buttonResult = doc.querySelector('[data-js="result"]'),
         buttonReset = doc.querySelector('[data-js="reset"]'),
@@ -40,58 +40,82 @@
         '÷': '/'
         };
     
-    number.forEach ( function( item ) {
-        item.addEventListener('click', showNumber, false);
+    buttonNumber.forEach ( function( button ) {
+        button.addEventListener('click', handleClickNumber, false);
     });
-    buttonOperator.forEach ( function( item ) {
-        item.addEventListener('click', showOperator, false);
+    buttonOperator.forEach ( function( button ) {
+        button.addEventListener('click', handleClickOperation , false);
     });
-    buttonResult.addEventListener('click', showResult, false);
-    buttonReset.addEventListener('click', resetCalc, false);
+    buttonResult.addEventListener('click', handleClickResult, false);
+    buttonReset.addEventListener('click', handleClickCE, false);
 
-    function showNumber () {
-        input.value =  input.value === '0' ? this.value : input.value.concat(this.value);
+    function handleClickNumber () {
+        console.log(visorHasZero(this));
+        if(!visorHasZero(this))
+            console.log(visorHasZero(this.value));
+            visor.value += this.value;
+        // visor.value =  visor.value === '0' ? this.value : visor.value.concat(this.value);
     }
 
-    function showOperator() {
-        if (input.value === '0')
-            this.value === '-' ? input.value =  this.value : alert('Insira um número');
+    function visorHasZero(button) {
+        return visor.value === '0' ? visor.value =  button.value : false;
+    }
+
+    function handleClickOperation () {
+        if (visor.value === '0')
+            this.value === '-' ? visor.value =  this.value : alert('Insira um número');
         else {
-            var inputValue = input.value,
-                inputLastChar = inputValue.charAt(inputValue.length - 1);
+            // var visorValue = visor.value,
+            //     visorLastChar = visorValue.charAt(visorValue.length - 1);
 
-            if (Object.keys(operators).indexOf(inputLastChar) !== -1)
-                inputValue = inputValue.slice(0, -1);
+            // if (Object.keys(operators).indexOf(visorLastChar) !== -1)
+            //     visorValue = visorValue.slice(0, -1);
 
-            input.value = inputValue.concat(this.value);
+            // visor.value = visorValue.concat(this.value);
+
+            visor.value = removeLastItemIfItsOperator ( visor.value );
+            visor.value += this.value;
         }
     }
 
-    function showResult() {
-        console.log('Estamos calculando o resultado...');
-        operatorsArr = input.value.split(/(\d+)/g);
-        //numbersArr = input.value.split(/\D/g);
-        // operatorsArr.splice(-1,1);
-        //console.log(numbersArr);
-
-        if (operatorsArr[0] === "") {
-            operatorsArr.splice(0, 1);
-            operatorsArr.reduce(function (accumulated, actual, index) {
-                if (actual.match(/\D/)) {
-                    console.log(typeof(parseInt(operators[actual])));
-                    console.log(parseInt((accumulated + operators[actual] + operatorsArr[index + 1])));
-                }
-                
-            });
-        }
-        // operatorsArr.reduce (function (acumulado, item, index) {
-        //     var operatorJS = operators[item];
-        //     console.log(operatorJS + ' ' + numbersArr[index] + ' ');
-        //     console.log('item', numbersArr[index - 1]);
-        // })
+    function isLastItemOperator ( number ) {
+        var operationsArr = ['+', '-', 'x', '÷'];
+        var lastItem = number.split('').pop();
+        return operationsArr.some(function(operator){
+            return operator === lastItem;
+        });
     }
 
-    function resetCalc() {
-        input.value = 0;
+    function removeLastItemIfItsOperator ( number ) {
+        if (isLastItemOperator(number))
+            return number.slice(0, -1);
+        return number;
+    }
+
+    function handleClickResult() {
+        visor.value = removeLastItemIfItsOperator(visor.value);
+        var allValues = visor.value.match(/\d+[+x÷-]?/g);
+
+        visor.value = allValues.reduce(function(accumulated, actual){
+            var firstValue = accumulated.slice(0, -1);
+            var operator = accumulated.split('').pop();
+            var lastValue = removeLastItemIfItsOperator(actual);
+            var lastOperator = isLastItemOperator(actual) ? actual.split('').pop() : '';
+
+            switch (operator) {
+                case '+':
+                    return (Number(firstValue) + Number(lastValue) + lastOperator);
+                case '-':
+                    return (Number(firstValue) - Number(lastValue) + lastOperator);
+                case 'x':
+                    return (Number(firstValue) * Number(lastValue) + lastOperator);
+                case '÷':
+                    return (Number(firstValue) / Number(lastValue) + lastOperator);
+            }
+        });
+    }
+
+    function handleClickCE() {
+        visor.value = 0;
     }
 })(document, window);
