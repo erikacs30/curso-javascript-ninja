@@ -1,75 +1,106 @@
-/*
-Nossa calculadora agora está funcional! A ideia desse desafio é modularizar
-o código, conforme vimos na aula anterior. Quebrar as responsabilidades
-em funções, onde cada função faça somente uma única coisa, e faça bem feito.
+(function( doc, win ) {
+  'use strict';
+  
+  /*
+  Nossa calculadora agora está funcional! A ideia desse desafio é modularizar
+  o código, conforme vimos na aula anterior. Quebrar as responsabilidades
+  em funções, onde cada função faça somente uma única coisa, e faça bem feito.
 
-- Remova as duplicações de código;
-- agrupe os códigos que estão soltos em funções (declarações de variáveis,
-listeners de eventos, etc);
-- faça refactories para melhorar esse código, mas de forma que o mantenha com a
-mesma funcionalidade.
-*/
+  - Remova as duplicações de código;
+  - agrupe os códigos que estão soltos em funções (declarações de variáveis,
+  listeners de eventos, etc);
+  - faça refactories para melhorar esse código, mas de forma que o mantenha com a
+  mesma funcionalidade.
+  */
+  var visor = doc.querySelector('[data-js="visor"]'),
+      buttonNumber = doc.querySelectorAll('[data-js="number"]'),
+      buttonOperator = doc.querySelectorAll('[data-js="operators"]'),
+      buttonResult = doc.querySelector('[data-js="result"]'),
+      buttonReset = doc.querySelector('[data-js="reset"]');
 
-var $visor = document.querySelector('[data-js="visor"]');
-var $buttonsNumbers = document.querySelectorAll('[data-js="button-number"]');
-var $buttonsOperations = document.querySelectorAll('[data-js="button-operation"]');
-var $buttonCE = document.querySelector('[data-js="button-ce"]');
-var $buttonEqual = document.querySelector('[data-js="button-equal"]');
-
-Array.prototype.forEach.call($buttonsNumbers, function(button) {
-  button.addEventListener('click', handleClickNumber, false);
-});
-Array.prototype.forEach.call($buttonsOperations, function(button) {
-  button.addEventListener('click', handleClickOperation, false);
-});
-$buttonCE.addEventListener('click', handleClickCE, false);
-$buttonEqual.addEventListener('click', handleClickEqual, false);
-
-function handleClickNumber() {
-  $visor.value += this.value;
-}
-
-function handleClickOperation() {
-  $visor.value = removeLastItemIfItIsAnOperator($visor.value);
-  $visor.value += this.value;
-}
-
-function handleClickCE() {
-  $visor.value = 0;
-}
-
-function isLastItemAnOperation(number) {
-  var operations = ['+', '-', 'x', '÷'];
-  var lastItem = number.split('').pop();
-  return operations.some(function(operator) {
-    return operator === lastItem;
-  });
-}
-
-function removeLastItemIfItIsAnOperator(number) {
-  if(isLastItemAnOperation(number)) {
-    return number.slice(0, -1);
+  function initialize() {
+    initEvents();
   }
-  return number;
-}
 
-function handleClickEqual() {
-  $visor.value = removeLastItemIfItIsAnOperator($visor.value);
-  var allValues = $visor.value.match(/\d+[+x÷-]?/g);
-  $visor.value = allValues.reduce(function(accumulated, actual) {
+  function initEvents () {
+    buttonNumber.forEach ( function( button ) {
+      button.addEventListener('click', handleClickNumber, false);
+    });
+    buttonOperator.forEach ( function( button ) {
+      stringbutton.addEventListener('click', handleClickOperation , false);
+    });
+    buttonResult.addEventListener('click', handleClickResult, false);
+    buttonReset.addEventListener('click', handleClickCE, false);
+  } 
+
+  function handleClickCE() {
+    visor.value = 0;
+  }
+
+  function handleClickNumber () {
+    visor.value === '0' ? visor.value =  button.value : false;
+  }
+
+  function handleClickOperation () {
+    if (visor.value === '0')
+      this.value === '-' ? visor.value =  this.value : alert('Insira um número');
+    else {
+      visor.value = removeLastItemIfItsOperator ( visor.value );
+      visor.value += this.value;
+    }
+  }
+
+  function handleClickResult() {
+    visor.value = removeLastItemIfItsOperator(visor.value);
+    var allValues = visor.value.match(getRegexOperations());
+    visor.value = allValues.reduce(calculateAllValues); // Programação funcional é quando consegue passar uma função como parâmetro para outra função
+  }
+
+  function getRegexOperations() {
+    return new RegExp('\\d+[' + getOperations().join('') + ']?', 'g');
+  }
+
+  function getOperations () {
+    return Array.prototype.map.call(buttonOperator, function (button) {
+      return button.value;
+    })
+  }
+
+  function calculateAllValues(accumulated, actual){
     var firstValue = accumulated.slice(0, -1);
     var operator = accumulated.split('').pop();
-    var lastValue = removeLastItemIfItIsAnOperator(actual);
-    var lastOperator = isLastItemAnOperation(actual) ? actual.split('').pop() : '';
-    switch(operator) {
+    var lastValue = removeLastItemIfItsOperator(actual);
+    var lastOperator = isLastItemOperator(actual) ? actual.split('').pop() : '';
+    return doOperation(operator) + lastOperator;
+  }
+
+  function removeLastItemIfItsOperator ( string ) {
+    if (isLastItemOperator(string))
+      return string.slice(0, -1);
+    return string;
+  }
+
+  function isLastItemOperator ( number ) {
+    var operationsArr = getOperations();
+    var lastItem = number.split('').pop(); // Split = quebra string em array ; Pop = retorna último item do array
+    return operationsArr.some( function(operator) { // Some = passa pelos itens do array e algum deles precisa satisfazer determinada condição ; Every = todos precisam satisfazer condição
+      return operator === lastItem;
+    });
+  }
+
+  function doOperation(operator, firstValue, lastValue) {
+    switch (operator) {
       case '+':
-        return ( Number(firstValue) + Number(lastValue) ) + lastOperator;
+          return (Number(firstValue) + Number(lastValue));
       case '-':
-        return ( Number(firstValue) - Number(lastValue) ) + lastOperator;
+          return (Number(firstValue) - Number(lastValue));
       case 'x':
-        return ( Number(firstValue) * Number(lastValue) ) + lastOperator;
+          return (Number(firstValue) * Number(lastValue));
       case '÷':
-        return ( Number(firstValue) / Number(lastValue) ) + lastOperator;
+          return (Number(firstValue) / Number(lastValue));
     }
-  });
-}
+  }
+
+  initialize();
+    
+})(document, window);

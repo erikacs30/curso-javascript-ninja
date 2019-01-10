@@ -50,15 +50,7 @@
     buttonReset.addEventListener('click', handleClickCE, false);
 
     function handleClickNumber () {
-        console.log(visorHasZero(this));
-        if(!visorHasZero(this))
-            console.log(visorHasZero(this.value));
-            visor.value += this.value;
-        // visor.value =  visor.value === '0' ? this.value : visor.value.concat(this.value);
-    }
-
-    function visorHasZero(button) {
-        return visor.value === '0' ? visor.value =  button.value : false;
+        visor.value =  visor.value === '0' ? this.value : visor.value.concat(this.value);
     }
 
     function handleClickOperation () {
