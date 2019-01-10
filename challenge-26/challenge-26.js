@@ -23,20 +23,23 @@
   // ?
 
   function DOM (domNode) {
-    this.element = doc.querySelectorAll(domNode);
-    this.on = function addListener(event, callback) {
-      return this.element.forEach ( function( element ) {
-        element.addEventListener(event, callback, false);
-      });
-    }
-    this.off = function removeListener(event, callback) {
-      return this.element.forEach ( function( element ) {
-        element.removeEventListener(event, callback, false);
-      });
-    }
-    this.get = function getElements() {
-      return this.element;
-    }
+    this.element = doc.querySelectorAll(domNode); 
+  }
+
+  DOM.prototype.on = function addListener(event, callback) {
+    return this.element.forEach ( function( element ) {
+      element.addEventListener(event, callback, false);
+    });
+  }
+
+  DOM.prototype.off = function removeListener(event, callback) {
+    return this.element.forEach ( function( element ) {
+      element.removeEventListener(event, callback, false);
+    });
+  }
+
+  DOM.prototype.get = function getElements() {
+    return this.element;
   }
 
   var $a = new DOM('[data-js="link"]');
