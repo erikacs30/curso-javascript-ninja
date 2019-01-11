@@ -1,4 +1,4 @@
-(function(win, doc) {
+(function(win, doc, DOM) {
   /*
     No HTML:
     * Crie um formulário com um input de texto que receberá um CEP e um botão
@@ -30,7 +30,6 @@
     var $input = doc.querySelector('[data-js="input-cep"]');
     var $button = doc.querySelector('[data-js="btn-submit"]');
     var $statusField = doc.querySelector('[data-js="status"]');
-    var $addressWrapper = doc.querySelector('[data-js="address"]');
     var $cepField = doc.querySelector('[data-js="CEP"]');
     var $ruaField = doc.querySelector('[data-js="logradouro"]');
     var $bairroField = doc.querySelector('[data-js="bairro"]');
@@ -61,7 +60,7 @@
                 $statusField.innerHTML = 'Erro: ' + responseCEP.message;
             }
             catch (e) {
-              $statusField.innerHTML = "Não encontramos o endereço para o CEP "  + setCEPFormat($input.value) + ".";
+              $statusField.innerHTML = "Endereço referente ao CEP: "  + setCEPFormat($input.value) + ".";
               console.log(e);
             }
           }
@@ -75,7 +74,7 @@
     }
 
     function setFieldsContent (ajaxResponse) {
-      $statusField.innerHTML = 'Sucesso!';
+      $statusField.innerHTML = "Não encontramos o endereço para o CEP "  + setCEPFormat($input.value) + ".";
       $cepField.innerHTML = ajaxResponse.code;
       $ruaField.innerHTML = ajaxResponse.address;
       $bairroField.innerHTML = ajaxResponse.district;
@@ -91,4 +90,4 @@
 
     initialize();
 
-})(window, document);
+})(window, document, window.DOM);

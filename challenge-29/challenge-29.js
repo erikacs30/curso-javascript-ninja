@@ -1,4 +1,4 @@
-(function() {
+(function(doc, DOM) {
   'use strict';
 
   /*
@@ -8,7 +8,7 @@
   seguinte forma:
   - No início do arquivo, deverá ter as informações da sua empresa - nome e
   telefone (já vamos ver como isso vai ser feito)
-  - Ao abrir a tela, ainda não teremos carros cadastrados. Então deverá ter
+  * Ao abrir a tela, ainda não teremos carros cadastrados. Então deverá ter
   um formulário para cadastro do carro, com os seguintes campos:
     - Imagem do carro (deverá aceitar uma URL)
     - Marca / Modelo
@@ -36,4 +36,58 @@
   que será nomeado de "app".
   */
 
-})();
+  function app() {
+    var $companyName = new DOM ('[data-js="company-name"]');
+    var $companyPhone = new DOM ('[data-js="company-phone"]');
+    var $submitButton = new DOM ('[data-js="btn-submit"]');
+    var ajax = new XMLHttpRequest();
+
+    ajax.open('GET', './company.json');
+    ajax.send();
+
+    ajax.addEventListener('readystatechange', handleStateChange, false);
+    $submitButton.get()[0].addEventListener('click', handleSubmit, false);
+
+    function handleStateChange () {
+      var response;
+      if (isRequestOK()) {
+        try {
+          response = JSON.parse(ajax.responseText);
+          setContent(response);
+        }
+        catch (e) {
+          console.log(e);
+        }
+      }
+    }
+    function setContent ( response ) {
+      $companyName.get()[0].textContent = response.name;
+      $companyPhone.get()[0].textContent = response.phone;
+    }
+  
+    function isRequestOK() {
+      return ajax.readystate === 4 || ajax.status === 200;
+    }
+
+    function handleSubmit (event) {
+      event.preventDefault();
+      var $table = new DOM('[data-js="cars"]');
+      var $inputImagem = new DOM('[data-js="input-img"]');
+      var $inputMarca = new DOM('[data-js="input-marca"]');
+      var $inputPlaca = new DOM('[data-js="input-placa"]');
+      var $inputCor = new DOM('[data-js="input-cor"]');
+
+      console.log($table.get()[0]);
+      
+      // $inputImagem = $inputImagem.get()[0].textContent;
+      // $inputMarca = $inputImagem.get()[0].textContent;
+      // $inputPlaca = $inputImagem.get()[0].textContent;
+      // $inputCor = $inputImagem.get()[0].textContent;
+      $table.get()[0].appendChild('<tr><td><img style="max-width: 200px" src="' + $inputImagem.value + '" /></td><td>' + $inputMarca.value + '</td><td>' + $inputPlaca.value + '</td><td>' + $inputCor.value + '</td></tr>')
+    }
+
+  }
+
+
+  app();
+})(document, window.DOM);

@@ -45,33 +45,6 @@
         return Array.prototype.forEach.apply(this.element, arguments);
     }
 
-    // var allArrayMethods = ['map', 'filter', 'reduce', 'reduceRight', 'every', 'some'];
-    // var allObjectMethods = ['Array', 'Object', 'Function', 'Number', 'String', 'Boolean', 'Null'];
-
-    // function isObj (obj) {
-    //     return Object.prototype.toString.call(obj);
-    // }
-
-    // function setObjectPrototypeMethods (methods) {
-    //     return methods.map (function (method) {
-    //         var nameMethod = 'is' + method;
-    //         DOM.prototype.nameMethod = function nameMethod(obj) {
-    //             return isObj(obj) === '[object ' + method + ']';
-    //         }
-    //     });
-    // }
-
-    // function setArrayPrototypeMethods (methods) {
-    //     return methods.map (function (method) {
-    //         DOM.prototype.method = function map() {
-    //             return Array.prototype.method.apply(this.element, arguments);
-    //         }
-    //     });
-    // }
-
-    // setArrayPrototypeMethods(allArrayMethods);
-    // setObjectPrototypeMethods(allObjectMethods);
-
     DOM.prototype.map = function map() {
         return Array.prototype.map.apply(this.element, arguments);
     }
@@ -95,52 +68,32 @@
     DOM.prototype.some = function some() {
         return Array.prototype.some.apply(this.element, arguments);
     }
-
-    function isObj (obj) {
-        return Object.prototype.toString.call(obj);
-    }
-
     DOM.prototype.isArray = function isArray(obj) {
-        return isObj(obj) === '[object Array]';
+        return Object.prototype.toString.call(obj) === '[object Array]';
     }
 
     DOM.prototype.isObject = function isObject(obj) {
-        return isObj(obj) === '[object Object]';
+        return Object.prototype.toString.call(obj) === '[object Object]';
     }
 
     DOM.prototype.isFunction = function isFunction(obj) {
-        return isObj(obj) === '[object Function]';
+        return Object.prototype.toString.call(obj) === '[object Function]';
     }
 
     DOM.prototype.isNumber = function isNumber(obj) {
-        return isObj(obj) === '[object Number]';
+        return Object.prototype.toString.call(obj) === '[object Number]';
     }
 
     DOM.prototype.isString = function isString(obj) {
-        return isObj(obj) === '[object String]';
+        return Object.prototype.toString.call(obj) === '[object String]';
     }
 
     DOM.prototype.isBoolean = function isBoolean(obj) {
-        return isObj(obj) === '[object Boolean]';
+        return Object.prototype.toString.call(obj) === '[object Boolean]';
     }
 
     DOM.prototype.isNull = function isNull(obj) {
-        return isObj(obj) === '[object Null]' || isObj(obj) === '[object undefined]';
+        return Object.prototype.toString.call(obj) === '[object Null]' || Object.prototype.toString.call(obj) === '[object undefined]';
     }
-
-    console.log(DOM.isObject({}));
-
-    var $a = new DOM('[data-js="link"]');
-    $a.on( 'click', clickOnLink );
-    
-
-    function clickOnLink (e) {
-        e.preventDefault();
-        console.log('removeu');
-        $a.off( 'click', clickOnLink );
-    }
-
-    console.log('Elementos selecionados:', $a.get());
-    console.log('$a é filho de body?', $a.get()[0].parentNode === document.body);
 
 })(document, window);
