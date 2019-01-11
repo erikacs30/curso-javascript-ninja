@@ -9,9 +9,37 @@ Ele será o nosso cronômetro;
 cada segundo;
 5. Ao clicar em Stop, o cronômetro deve parar de contar;
 6. Ao clicar em Reset, o cronômetro deve zerar e parar de contar.
-
 Utilize o atributo data-js para nomear o campo e os botões. Você pode
 usar o nome que achar melhor, desde que ele seja semântico, ou seja, o nome
 dado ao elemento HTML deve definir o que o elemento é ou o que ele faz.
 */
-// ?
+
+
+(function(doc, win) {
+    'use strict';
+    
+    var cronometer,
+        input = doc.querySelector('[data-js="input-counter"]'),
+        buttonStart = doc.querySelector('[data-js="button-start"]'),
+        buttonStop = doc.querySelector('[data-js="button-stop"]'),
+        buttonReset = doc.querySelector('[data-js="button-reset"]');
+    
+    buttonStart.addEventListener('click', startTimer, false);
+    buttonStop.addEventListener('click', stopTimer, false);
+    buttonReset.addEventListener('click', resetTimer, false);
+    
+    function startTimer() {
+        input.value++;
+        cronometer = setTimeout(startTimer , 1000);
+    }
+
+    function stopTimer() {
+        clearTimeout(cronometer);
+    }
+
+    function resetTimer() {
+        stopTimer();
+        input.value = 0;
+    }
+
+})(document, window);
