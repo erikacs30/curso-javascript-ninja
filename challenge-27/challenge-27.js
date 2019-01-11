@@ -21,7 +21,6 @@
     O método isNull deve retornar `true` se o valor for null ou undefined.
     */
 
-
     function DOM (domNode) {
         this.element = doc.querySelectorAll(domNode); 
     }
@@ -43,57 +42,62 @@
     }
 
     DOM.prototype.forEach = function forEach() {
-        return Array.prototype.forEach.call(this.element, function( element ) {
-            return element;
-        });
+        return Array.prototype.forEach.apply(this.element, arguments);
     }
 
+    // var allArrayMethods = ['map', 'filter', 'reduce', 'reduceRight', 'every', 'some'];
+    // var allObjectMethods = ['Array', 'Object', 'Function', 'Number', 'String', 'Boolean', 'Null'];
+
+    // function isObj (obj) {
+    //     return Object.prototype.toString.call(obj);
+    // }
+
+    // function setObjectPrototypeMethods (methods) {
+    //     return methods.map (function (method) {
+    //         var nameMethod = 'is' + method;
+    //         DOM.prototype.nameMethod = function nameMethod(obj) {
+    //             return isObj(obj) === '[object ' + method + ']';
+    //         }
+    //     });
+    // }
+
+    // function setArrayPrototypeMethods (methods) {
+    //     return methods.map (function (method) {
+    //         DOM.prototype.method = function map() {
+    //             return Array.prototype.method.apply(this.element, arguments);
+    //         }
+    //     });
+    // }
+
+    // setArrayPrototypeMethods(allArrayMethods);
+    // setObjectPrototypeMethods(allObjectMethods);
+
     DOM.prototype.map = function map() {
-        return Array.prototype.map.call(this.element, function( element ) {
-            return element;
-        });
+        return Array.prototype.map.apply(this.element, arguments);
     }
 
     DOM.prototype.filter = function filter() {
-        return Array.prototype.filter.call(this.element, function( element ) {
-            return element;
-        });
+        return Array.prototype.filter.apply(this.element, arguments);
     }
 
     DOM.prototype.reduce = function reduce() {
-        return Array.prototype.reduce.call(this.element, function( element ) {
-            return element;
-        });
+        return Array.prototype.reduce.apply(this.element, arguments);
     }
 
     DOM.prototype.reduceRight = function reduceRight() {
-        return Array.prototype.reduceRight.call(this.element, function( element ) {
-            return element;
-        });
+        return Array.prototype.reduceRight.apply(this.element, arguments);
     }
 
     DOM.prototype.every = function every() {
-        return Array.prototype.every.call(this.element, function( element ) {
-            return element;
-        });
+        return Array.prototype.every.apply(this.element, arguments);
     }
 
     DOM.prototype.some = function some() {
-        return Array.prototype.some.call(this.element, function( element ) {
-            return element;
-        });
+        return Array.prototype.some.apply(this.element, arguments);
     }
 
     function isObj (obj) {
-        return Array.prototype.toString.call(obj);
-    }
-
-    DOM.prototype.isArray = function isArray(obj) {
-        return isObj(obj) === '[object Array]';
-    }
-
-    DOM.prototype.isArray = function isArray(obj) {
-        return isObj(obj) === '[object Array]';
+        return Object.prototype.toString.call(obj);
     }
 
     DOM.prototype.isArray = function isArray(obj) {
@@ -123,6 +127,8 @@
     DOM.prototype.isNull = function isNull(obj) {
         return isObj(obj) === '[object Null]' || isObj(obj) === '[object undefined]';
     }
+
+    console.log(DOM.isObject({}));
 
     var $a = new DOM('[data-js="link"]');
     $a.on( 'click', clickOnLink );
