@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Challenge 28 - Busca CEP</title>
+</head>
+<body>
+    <form method="GET">
+        <label for="input">Preencha o CEP</label>
+        <input type="text" data-js="input-cep" name="input" />
+        <button type="submit" data-js="btn-submit">Consultar CEP</button>
+    </form>
+
+    <section>
+        <p data-js="status">Aguardando CEP...</p>
+        <adress data-js="address">
+            <p data-js="CEP"></p>
+            <p data-js="logradouro"></p>
+            <p data-js="bairro"></p>
+            <p data-js="cidade"></p>
+            <p data-js="estado"></p>
+        </adress>
+    </section>
+
+  <script src="challenge-28.js"></script>
+</body>
+</html>
