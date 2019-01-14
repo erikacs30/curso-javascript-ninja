@@ -22,8 +22,8 @@
        */
    
        function DOM (domNode) {
-            if (!(this instanceof DOM))
-                return new DOM(elements);
+            // if (!(this instanceof DOM))
+            //     return new DOM(elements);
 
            this.element = doc.querySelectorAll(domNode); 
         

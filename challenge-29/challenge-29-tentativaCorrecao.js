@@ -36,31 +36,33 @@
   que será nomeado de "app".
   */
 
-  var app = function app() {
+  var app = (function appFn() {
     return  {
-      init: function init() {
+      init: function init () {
         this.initEvents();
         this.companyInfo();
       },
       initEvents: function initEvents() {
-        var $submit = new DOM('[data-js="form-cars"');
-        $submit.get().addEventListener('submit', this.handleSubmit, false);
+        console.log('oi');
+        DOM('[data-js="form-cars"]').get().on('submit', this.handleSubmit);
       },
       companyInfo: function companyInfo() {
         var ajax = new XMLHttpRequest();
-        ajax.open('GET', 'company.json', true);
+        ajax.open('GET', './company.json', true);
         ajax.send();
         ajax.addEventListener('readystatechange', this.getCompanyInfo, false);
+        
+       
 
       },
       getCompanyInfo: function getCompanyInfo() {
-        if (!app().isReady.call(this)) 
+        if (!app.isReady.call(this)) 
           return;
         var data = JSON.parse(this.responseText);
-        var $companyName = new DOM('[data-js="company-name"]');
-        var $companyPhone = new DOM('[data-js="company-phone"]');
-        $companyName.get().textContent = data.name;
-        $companyPhone.get().textContent = data.phone;
+        var $companyName = new DOM('[data-js="company-name"]').get();
+        var $companyPhone = new DOM('[data-js="company-phone"]').get();
+        $companyName.textContent = data.name;
+        $companyPhone.textContent = data.phone;
       },
       isReady: function isReady() {
         return this.readystate === 4 || this.status === 200;
@@ -73,25 +75,26 @@
         var tdPlaca = doc.createElement('td');
         var tdCor = doc.createElement('td');
  
-        tdImg.textContent = new DOM('[data-js="input-imagem"]').get().value;
+        tdImage.textContent = new DOM('[data-js="input-img"]').get().value;
         tdMarca.textContent = new DOM('[data-js="input-marca"]').get().value;
         tdPlaca.textContent = new DOM('[data-js="input-placa"]').get().value;
         tdCor.textContent = new DOM('[data-js="input-cor"]').get().value;
 
-        tr.appendChild(tdImg);
+        tr.appendChild(tdImage);
         tr.appendChild(tdMarca);
         tr.appendChild(tdPlaca);
         tr.appendChild(tdCor);
-
-        return fragment.appendChild(tr);
       },
       handleSubmit: function handleSubmit(event) {
         event.preventDefault();
         var $table = new DOM('[data-js="cars"]').get();
-        $table.appendChild(app().createNewCar());
+        $table.appendChild(app.createNewCar());
       }
-    }
-  }
+    }; 
 
-  app().init();
+
+  })();
+
+
+  app.init();
 })(document, window.DOM);
