@@ -36,58 +36,65 @@
   que será nomeado de "app".
   */
 
-  function app() {
-    var $companyName = new DOM ('[data-js="company-name"]');
-    var $companyPhone = new DOM ('[data-js="company-phone"]');
-    var $submitButton = new DOM ('[data-js="btn-submit"]');
-    var ajax = new XMLHttpRequest();
+  var app = (function appFn() {
+    return  {
+      init: function init () {
+        this.initEvents();
+        this.companyInfo();
+      },
+      initEvents: function initEvents() {
+        console.log('oi');
+        DOM('[data-js="form-cars"]').get().on('submit', this.handleSubmit);
+      },
+      companyInfo: function companyInfo() {
+        var ajax = new XMLHttpRequest();
+        ajax.open('GET', './company.json', true);
+        ajax.send();
+        ajax.addEventListener('readystatechange', this.getCompanyInfo, false);
+        
+       
 
-    ajax.open('GET', './company.json');
-    ajax.send();
+      },
+      getCompanyInfo: function getCompanyInfo() {
+        if (!app.isReady.call(this)) 
+          return;
+        var data = JSON.parse(this.responseText);
+        var $companyName = new DOM('[data-js="company-name"]').get();
+        var $companyPhone = new DOM('[data-js="company-phone"]').get();
+        $companyName.textContent = data.name;
+        $companyPhone.textContent = data.phone;
+      },
+      isReady: function isReady() {
+        return this.readystate === 4 || this.status === 200;
+      },
+      createNewCar: function createNewCar() {
+        var fragment = doc.createDocumentFragment();
+        var tr = doc.createElement('tr');
+        var tdImg = doc.createElement('td');
+        var tdMarca = doc.createElement('td');
+        var tdPlaca = doc.createElement('td');
+        var tdCor = doc.createElement('td');
+ 
+        tdImage.textContent = new DOM('[data-js="input-img"]').get().value;
+        tdMarca.textContent = new DOM('[data-js="input-marca"]').get().value;
+        tdPlaca.textContent = new DOM('[data-js="input-placa"]').get().value;
+        tdCor.textContent = new DOM('[data-js="input-cor"]').get().value;
 
-    ajax.addEventListener('readystatechange', handleStateChange, false);
-    $submitButton.get()[0].addEventListener('click', handleSubmit, false);
-
-    function handleStateChange () {
-      var response;
-      if (isRequestOK()) {
-        try {
-          response = JSON.parse(ajax.responseText);
-          setContent(response);
-        }
-        catch (e) {
-          console.log(e);
-        }
+        tr.appendChild(tdImage);
+        tr.appendChild(tdMarca);
+        tr.appendChild(tdPlaca);
+        tr.appendChild(tdCor);
+      },
+      handleSubmit: function handleSubmit(event) {
+        event.preventDefault();
+        var $table = new DOM('[data-js="cars"]').get();
+        $table.appendChild(app.createNewCar());
       }
-    }
-    function setContent ( response ) {
-      $companyName.get()[0].textContent = response.name;
-      $companyPhone.get()[0].textContent = response.phone;
-    }
-  
-    function isRequestOK() {
-      return ajax.readystate === 4 || ajax.status === 200;
-    }
-
-    function handleSubmit (event) {
-      event.preventDefault();
-      var $table = new DOM('[data-js="cars"]');
-      var $inputImagem = new DOM('[data-js="input-img"]');
-      var $inputMarca = new DOM('[data-js="input-marca"]');
-      var $inputPlaca = new DOM('[data-js="input-placa"]');
-      var $inputCor = new DOM('[data-js="input-cor"]');
-
-      console.log($table.get()[0]);
-      
-      // $inputImagem = $inputImagem.get()[0].textContent;
-      // $inputMarca = $inputImagem.get()[0].textContent;
-      // $inputPlaca = $inputImagem.get()[0].textContent;
-      // $inputCor = $inputImagem.get()[0].textContent;
-      $table.get()[0].appendChild('<tr><td><img style="max-width: 200px" src="' + $inputImagem.value + '" /></td><td>' + $inputMarca.value + '</td><td>' + $inputPlaca.value + '</td><td>' + $inputCor.value + '</td></tr>')
-    }
-
-  }
+    }; 
 
 
-  app();
+  })();
+
+
+  app.init();
 })(document, window.DOM);

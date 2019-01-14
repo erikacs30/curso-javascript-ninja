@@ -22,7 +22,11 @@
        */
    
        function DOM (domNode) {
+            if (!(this instanceof DOM))
+                return new DOM(elements);
+
            this.element = doc.querySelectorAll(domNode); 
+        
        }
    
        DOM.prototype.on = function addListener(event, callback) {
@@ -37,8 +41,10 @@
            });
        }
    
-       DOM.prototype.get = function getElements() {
-           return this.element;
+       DOM.prototype.get = function getElements(index) {
+            if (!index)
+                return this.element[0];
+            return this.element[index];
        }
    
        DOM.prototype.forEach = function forEach() {
